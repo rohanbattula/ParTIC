@@ -9,7 +9,7 @@ class Party(models.Model):
     distance = models.DecimalField()
     entryFee = models.IntegerField()
     dateTime = models.DateTimeField()
-    gender = models.BooleanField()
+    guysAllowed = models.BooleanField()
 
    def __str__(self):
-        return self.name 
+        return self.name

@@ -5,4 +5,4 @@ class PartySerializer(serializers.ModelSerializer):
     class Meta:
         model = Party
         fields = ('name', 'address','status','distance',
-        'entryFee','datetime','guysAllowed')
+        'entryFee','dateTime','guysAllowed')
