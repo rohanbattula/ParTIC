@@ -10,6 +10,7 @@ class Party(models.Model):
     entryFee = models.IntegerField()
     dateTime = models.DateTimeField()
     guysAllowed = models.BooleanField()
+    photo = models.ImageField(upload_to="party/", null=True, blank=True)
 
     def __str__(self):
         return self.name
