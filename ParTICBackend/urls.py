@@ -18,4 +18,8 @@ from django.urls import include, path
 
 urlpatterns = [
     path('party/', include('party.urls')),
+<<<<<<< HEAD
+=======
+    #path('admin/', admin.site.urls),
+>>>>>>> 9e007c8d4879154fa94aaaaec53cd6b34a9f382d
 ]
