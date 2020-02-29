@@ -14,3 +14,12 @@ class Party(models.Model):
 
     def __str__(self):
         return self.name
+
+class User(models.Model):
+    name = models.CharField(max_length = 20, unique=False)
+    age = models.IntegerField()
+    school = models.CharField(max_length = 20, name='UCLA')
+    gender = models.
+
+    def __str__(self):
+        return self.name
