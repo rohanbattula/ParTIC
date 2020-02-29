@@ -8,7 +8,7 @@ from users import views as user_v
 urlpatterns = [
     #path('', views.index, name='index'),
     #path('admin/', admin.site.urls),
-    #path('api/list', views.get_rest_list, name="get_rest_list"),
+    url('api/list', views.get_rest_list, name="get_rest_list"),
     #path('', include("main.urls")),
     #path('', include("django.contrib.auth.urls")),
     url('admin/', admin.site.urls),
