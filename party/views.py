@@ -18,6 +18,7 @@ def index(request):
 
 
 # Rest api end point
+@csrf_exempt
 def get_rest_list(request):
     """
     Returns Json list of all restaurants
