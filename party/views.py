@@ -81,4 +81,4 @@ def login(request):
             return redirect('Party.home')
         else:
             messages.self.fail('Login unsuccessful')
-        return render(request, 'Party.home', {'party': party})
+    return render(request, 'Party.home', {'party': party})
