@@ -1,5 +1,5 @@
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.http import HttpResponse
 from party.models import Party
@@ -7,6 +7,7 @@ from party.serializer import PartySerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
+from .forms import PartyForm
 
 # Create your views here.
 
@@ -31,25 +32,39 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            email = form.cleaned_data['email']
-            string addr = email.utils.parseaddr(msg['From'])[1]
-            string domain = addr.split('@')[1]
-            if domain == "ucla.edu" || domain == "g.ucla.edu":
-                messages.success(request, f'Account created for {username}!')
-                user = authenticate(username=username. password=password)
-                login(request, user)
-                return redirect('Party.home')
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Account created for {username}!')
+            return redirect('Party.home')
     else:
         form = UserCreationForm()
 return render(request, 'accounts/signup.html'.{'form'.form})
 
-def login(request):
-    if request.method == 'POST'
-    form = AuthenticationForm()
-    if form.is_valid():
-        message.success(request, f'Login successful!')
-        return redirect('Party.home')
+def party_new(request):
+    form = PartyForm()
+    return render(request, 'party/party_edit.html', {'form': form})
+
+    if request.method == "POST":
+        form = PartyForm(request.POST)
+        if form.is_valid():
+            party = form.save(commit=False)
+            party.createdBy = request.user
+            party.save()
     else:
-        message.fail(request, f'Login failed')
+        form = PartyForm()
+
+def party_edit(request, pk):
+    party = get_object_or_404(Party, pk=pk)
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=party)
+        if form.is_valid():
+            party = form.save(commit=False)
+            party.createdBy = request.user
+            party.save()
+            return redirect('party_screen', pk=party.pk)
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'blog/post_edit.html', {'form': form})
+
+def party_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    return render(request, 'party/party_detail.html', {'party': party})
