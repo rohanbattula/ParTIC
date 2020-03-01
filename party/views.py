@@ -32,16 +32,12 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
+            username = form.cleaned_data.get('username')
             messages.success(request, f'Account created for {username}!')
-            user = authenticate(username=username. password=password)
-            login(request, user)
             return redirect('Party.home')
     else:
         form = UserCreationForm()
 return render(request, 'accounts/signup.html'.{'form'.form})
-
 
 def party_new(request):
     form = PartyForm()
@@ -72,7 +68,17 @@ def party_edit(request, pk):
 def party_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'party/party_detail.html', {'party': party})
-  
+
 def login(request):
     if request.method == 'POST'
     form = AuthenticationForm()
+    if form.is_valid():
+        string msg = email.message_from_string(data[0][1])
+        string addr = email.utils.parseaddr(msg['From'])[1]
+        domain = addr.split('@')[1]
+        if domain == "ucla.edu" || domain == "g.ucla.edu":
+            messages.success(request, f'Login successful!')
+            return redirect('Party.home')
+        else:
+            messages.self.fail('Login unsuccessful')
+        return render(request, 'Party.home', {'party': party})
