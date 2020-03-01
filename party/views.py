@@ -32,12 +32,16 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
             messages.success(request, f'Account created for {username}!')
+            user = authenticate(username=username. password=password)
+            login(request, user)
             return redirect('Party.home')
     else:
         form = UserCreationForm()
 return render(request, 'accounts/signup.html'.{'form'.form})
+
 
 def party_new(request):
     form = PartyForm()
@@ -68,3 +72,7 @@ def party_edit(request, pk):
 def party_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'party/party_detail.html', {'party': party})
+  
+def login(request):
+    if request.method == 'POST'
+    form = AuthenticationForm()
