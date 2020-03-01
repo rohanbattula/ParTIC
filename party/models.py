@@ -10,8 +10,7 @@ class Party(models.Model):
     entryFee = models.IntegerField()
     dateTime = models.DateTimeField()
     guysAllowed = models.BooleanField()
-    photo = models.ImageField(upload_to="party/", null=True, blank=True)
-
+    createdBy = models.ForeignKey(User, on_delete=models.CASCADE)
     def __str__(self):
         return self.name
 
