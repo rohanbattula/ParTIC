@@ -10,15 +10,17 @@ class Party(models.Model):
     entryFee = models.IntegerField()
     dateTime = models.DateTimeField()
     guysAllowed = models.BooleanField()
-    createdBy = models.ForeignKey(User, on_delete=models.CASCADE)
+    photo = models.ImageField(upload_to="party/", null=True, blank=True)
+
     def __str__(self):
         return self.name
 
 class User(models.Model):
     name = models.CharField(max_length = 20, unique=False)
     age = models.IntegerField()
-    school = models.CharField(max_length = 20, name='UCLA')
-    gender = models.
+    email = models.CharField(max_length = 100, unique=True)
+    profilePic = models.ImageField(upload_to="party/", null=True, blank=True)
 
     def __str__(self):
+        return self.profilePic
         return self.name
