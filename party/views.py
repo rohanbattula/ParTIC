@@ -65,7 +65,7 @@ def party_edit(request, pk):
             return redirect('party_screen', pk=party.pk)
     else:
         form = PostForm(instance=party)
-    return render(request, 'blog/post_edit.html', {'form': form})
+    return render(request, 'blog/party_edit.html', {'form': form})
 
 def party_detail(request, pk):
     party = get_object_or_404(Post, pk=pk)
