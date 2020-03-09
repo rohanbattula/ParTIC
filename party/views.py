@@ -7,6 +7,7 @@ from party.serializer import PartySerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from .forms import PartyForm
 
 # Create your views here.
@@ -33,11 +34,12 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
+            password = request.POST['password']
             messages.success(request, f'Account created for {username}!')
             return redirect('Party.home')
     else:
         form = UserCreationForm()
-return render(request, 'accounts/signup.html'.{'form'.form})
+    return render(request, 'accounts/signup.html'.{'form'.form})
 
 def party_new(request):
     form = PartyForm()
@@ -69,7 +71,7 @@ def party_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'party/party_detail.html', {'party': party})
 
-def login(request):
+def login(request, user):
     if request.method == 'POST'
     form = AuthenticationForm()
     if form.is_valid():
