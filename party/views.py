@@ -9,13 +9,6 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
 from .forms import PartyForm
 
-# Create your views here.
-
-def index(request):
-    rest_list = Party.objects.order_by('-dateTime')
-    context = {'rest_list': rest_list}
-    return render(request, 'party/index.html', context)
-
 
 # Rest api end point
 @csrf_exempt
@@ -40,6 +33,7 @@ def register(request):
         form = UserCreationForm()
 return render(request, 'accounts/signup.html'.{'form'.form})
 
+@csrf_exempt
 def party_new(request):
     form = PartyForm()
     return render(request, 'party/party_edit.html', {'form': form})
@@ -54,6 +48,7 @@ def party_new(request):
     else:
         form = PartyForm()
 
+@csrf_exempt
 def party_edit(request, pk):
     party = get_object_or_404(Party, pk=pk)
     if request.method == "POST":
@@ -70,6 +65,7 @@ def party_edit(request, pk):
 def party_detail(request, pk):
     party = get_object_or_404(Party, pk=pk)
     return render(request, 'party/party_detail.html', {'party': party})
+
 
 def login(request):
     if request.method == 'POST'
