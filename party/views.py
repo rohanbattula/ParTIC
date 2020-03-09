@@ -57,18 +57,18 @@ def party_new(request):
 def party_edit(request, pk):
     party = get_object_or_404(Party, pk=pk)
     if request.method == "POST":
-        form = PostForm(request.POST, instance=party)
+        form = PartyForm(request.POST, instance=party)
         if form.is_valid():
             party = form.save(commit=False)
             party.createdBy = request.user
             party.save()
             return redirect('party_screen', pk=party.pk)
     else:
-        form = PostForm(instance=party)
+        form = PartyForm(instance=party)
     return render(request, 'blog/party_edit.html', {'form': form})
 
 def party_detail(request, pk):
-    party = get_object_or_404(Post, pk=pk)
+    party = get_object_or_404(Party, pk=pk)
     return render(request, 'party/party_detail.html', {'party': party})
 
 def login(request):
