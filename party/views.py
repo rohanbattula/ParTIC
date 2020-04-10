@@ -72,15 +72,15 @@ def party_detail(request, pk):
     return render(request, 'party/party_detail.html', {'party': party})
 
 def login(request, user):
-    if request.method == 'POST'
-    form = AuthenticationForm()
-    if form.is_valid():
-        string msg = email.message_from_string(data[0][1])
-        string addr = email.utils.parseaddr(msg['From'])[1]
-        domain = addr.split('@')[1]
-        if domain == "ucla.edu" || domain == "g.ucla.edu":
-            messages.success(request, f'Login successful!')
-            return redirect('Party.home')
-        else:
-            messages.self.fail('Login unsuccessful')
+    if request.method == 'POST':
+        form = AuthenticationForm()
+        if form.is_valid():
+            string msg = email.message_from_string(data[0][1])
+            string addr = email.utils.parseaddr(msg['From'])[1]
+            domain = addr.split('@')[1]
+            if domain == "ucla.edu" || domain == "g.ucla.edu":
+                messages.success(request, f'Login successful!')
+                return redirect('Party.home')
+            else:
+                messages.self.fail('Login unsuccessful')
     return render(request, 'Party.home', {'party': party})
