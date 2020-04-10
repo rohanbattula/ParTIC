@@ -12,7 +12,7 @@ urlpatterns = [
     #path('', include("main.urls")),
     #path('', include("django.contrib.auth.urls")),
     url('admin/', admin.site.urls),
-    url('register/'', user_v.register, name='register'),
+    url('register/', user_v.register, name='register'),
     url('login/', auth_v.LoginView.as_view(), name='login'),
     url('logout/', auth_v.LogoutView.as_view(), name='logout'),
     url('', include('party.urls')),
