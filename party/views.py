@@ -7,8 +7,9 @@ from party.serializer import PartySerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .forms import PartyForm
+from .forms import SignUpForm
 
 # Create your views here.
 
@@ -30,15 +31,24 @@ def get_rest_list(request):
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            password = request.POST['password']
-            messages.success(request, f'Account created for {username}!')
-            return redirect('Party.home')
+            user = form.save()
+            user.refresh_from_db()
+            user.profile.username = form.cleaned_data.get('username')
+            user.profile.email = form.cleaned_data.get('email')
+            raw_password = form.cleaned_data.get('password')
+            string msg = email.message_from_string(data[0][1])
+            string addr = email.utils.parseaddr(msg['From'])[1]
+            domain = addr.split('@')[1]
+            if domain == "ucla.edu" || domain == "g.ucla.edu":
+                messages.success(request, f'Registration successful!')
+                login(request, user)
+                return redirect('/party/view.html')
+            else:
+                messages.self.fail('Registration unsuccessful')
     else:
-        form = UserCreationForm()
+        form = SignUpForm()
     return render(request, 'accounts/signup.html'.{'form'.form})
 
 def party_new(request):
@@ -73,14 +83,24 @@ def party_detail(request, pk):
 
 def login(request, user):
     if request.method == 'POST':
-        form = AuthenticationForm()
+        form = AuthenticationForm(request=request, data=request.POST)
         if form.is_valid():
-            string msg = email.message_from_string(data[0][1])
-            string addr = email.utils.parseaddr(msg['From'])[1]
-            domain = addr.split('@')[1]
-            if domain == "ucla.edu" || domain == "g.ucla.edu":
-                messages.success(request, f'Login successful!')
-                return redirect('Party.home')
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"You are now logged in as {username}")
+                return redirect('/')
             else:
-                messages.self.fail('Login unsuccessful')
-    return render(request, 'Party.home', {'party': party})
+                messages.error(request, "Invalid username or password.")
+        else:
+            messages.error(request, "Invalid username or password.")
+    form = AuthenticationForm()
+    return render(request = request,
+                    template_name = "main/login.html",
+                    context={"form":form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('/login.html')
