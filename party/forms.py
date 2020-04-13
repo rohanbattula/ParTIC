@@ -1,6 +1,5 @@
 from django import forms
 from .models import Party
-from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -11,8 +10,11 @@ class PartyForm(forms.ModelForm):
         fields = ('name', 'address', 'status', 'distance','dateTime','guysAllowed','photo')
 
 class SignUpForm(UserCreationForm):
-    username = forms.CharField(max_length=10, required=True, help_text='Username to identify yourself')
-    email = forms.EmailField(max_length=254, required=True, help_text='Please use your UCLA email to register')
+    username = forms.CharField(max_length=10, required=True,
+                                help_text='To identify yourself')
+    email = forms.EmailField(max_length=150, required=True,
+                            help_text='Please use your UCLA email')
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', )
+        fields = ('username', 
+            'email', 'password' )

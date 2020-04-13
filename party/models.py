@@ -15,9 +15,9 @@ class Party(models.Model):
         return self.name
 
 class User(models.Model):
-    name = models.CharField(max_length = 20, unique=False)
+    username = models.CharField(max_length = 20, unique=False)
     age = models.IntegerField()
-    email = models.CharField(max_length = 100)
+    email = models.EmailField(max_length = 100)
     profilePic = models.ImageField(upload_to="party/", null=True, blank=True)
 
     def __str__(self):
