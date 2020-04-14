@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .forms import PartyForm
 from .forms import SignUpForm
+from .models import User
 
 # Create your views here.
 
@@ -81,7 +82,7 @@ def party_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'party/party_detail.html', {'party': party})
 
-def login(request, user):
+def login(request, User):
     if request.method == 'POST':
         form = AuthenticationForm(request=request, data=request.POST)
         if form.is_valid():
@@ -100,6 +101,11 @@ def login(request, user):
     return render(request = request,
                     template_name = "main/login.html",
                     context={"form":form})
+
+def change_password(User):
+    u = User.objects.get(username)
+    django-admin change_password [u]
+    
 
 def logout_view(request):
     logout(request)
